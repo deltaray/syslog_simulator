@@ -1,0 +1,7 @@
+
+[Actor1]
+; Normal user jsmith
+IPset = 68.68.0.0/16 ; Could be an ISP dynamic address.
+Userset = jsmith
+password = foobar
+

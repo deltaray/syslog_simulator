@@ -1,0 +1,59 @@
+
+
+class for Actor
+  Represents the person/bot trying to creator activity.
+  - Could be benign or malicious.
+  - Has one or more source IPv4 or IPv6 address, but for now only one per schedule period.
+  - Actor owns user instance or instances
+  - Likeliness to giveup after try all.
+  - Type: 
+       Normal
+       System
+       mal_BruteForce
+       mal_DoS
+       mal_BufferOverflow
+
+class for ActorSchedule
+  - Days of week
+      Can use Mon; Monday; 1
+      Can use Mon-Sun; Mon-Wed; Mon,Wed,Thursday for ranges.
+  - Times of day
+      24 hour time
+      Can zero pad hours.
+      ranges and multiple ranges ok.
+  - Times per scheduled period
+  - Likelyness to miss:
+       percentage 0 to 100
+       Chance that they will miss some set period in their schedule (What will that period be?)
+  - Likelyness to deviate:
+       percentage 0 to 100
+       Chance that they will deviate from their normal schedule.
+  - max deviation
+       1-60s
+       1-60m
+       1-24h
+
+class for User
+  - username
+  - Can login
+  - Has a password(s) to try
+  - Can change password
+  - Can have SSH key.
+
+class for Password
+  - string
+
+class for Host
+  - Has IPv4 and/or IPv6 address
+  - Has hostname
+  - Has valid user list
+
+class for Service
+  - ie. ssh, cron, sudo, firewall
+  - Creates a SyslogOutput object.
+
+class for SyslogOutput
+  - Ideally, can read in real syslog config file.
+  - Alternate path for output files.
+
+

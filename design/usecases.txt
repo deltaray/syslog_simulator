@@ -1,0 +1,10 @@
+
+1. Simulate normal system behavior
+
+2. Simulate normal + 1 malicious attacker
+
+3. Simulate normal + multiple malicious attackers 
+
+5. Simulate normal + attackers from multiple countries 
+
+6. Simulate normal user mistakes such as forgot password, wrong username, etc.
