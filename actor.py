@@ -17,6 +17,7 @@ class Actor:
         self.attempts = 0 # Current count of how many connection attempts have been made.
         self.activeconnections = 0
         self.opensessions = []
+        self.sshd = None # Contains sshd service object tied to this actor. This should probably eventually be a dictionary of objects.
 
         if isinstance(maxattempts, str):
             if maxattempts.find("-") >= 0:

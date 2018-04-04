@@ -5,14 +5,30 @@ import config as config
 
 class Service:
 
-    def __init__(self, name, logfile, hostid):
+    pids = list(range(100)) # In use PIDs. Usually the first 100 or so are being used.
+    maxpid = 65535 # highest pid we can assign.
+    lastpid = 0 # The last allocated pid.
+
+    def __init__(self, name, logger):
         self.name = name
-        self.logger = SyslogOutput(logfile, hostid)
+        self.logger = logger
         if name == "kernel":
             self.pid = 0
         else:
-            self.pid = random.randint(100,10000)
+            self.pid = self.getPID()
         #print("Got a pid of " + str(self.pid))
+
+    def getPID(self):
+        Service.lastpid += 1
+        while Service.lastpid in Service.pids:
+            Service.lastpid += 1
+        Service.pids.append(Service.lastpid)
+        return Service.lastpid
+
+
+    def releasePID(self, pid):
+        Service.pids.remove(pid)
+        return True
 
 
 

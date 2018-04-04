@@ -73,7 +73,7 @@ def random_ipaddr(lowerbound, upperbound):
 globalvars.epochtime = config.startepoch
 
 # Right now this software only generates sshd logs.
-sshd = SSHService('sshd', config.logfile, config.hostname)
+syslogger = SyslogOutput(config.logfile, config.hostname)
 
 # A list of all the actor objects in the simulation.
 actorqueue = []
@@ -135,12 +135,15 @@ for i in range(1,86400*config.days):
                 # For now, we'll only deal with one successful connection at a time.
                 if thisactor.getAttempts() < thisactor.getMaxAttempts():
                     # Won't allow a normal user to make a few mistakes before success yet.
+
+                    thisactor.sshd = SSHService('sshd', syslogger)
                     randomSrcPort = random.randint(1024, 65535) # Later make this actor attribute
-                    waittime = sshd.connect(thisactor.username,
+                    waittime = thisactor.sshd.connect(thisactor.username,
                                  thisactor.success,
                                  thisactor.ip,
                                  randomSrcPort)
 
+                    # If the above works properly, then we should move this tracking into the Actor or Service class.
                     if thisactor.success == True: # If only it were this easy.
                         thisactor.incrementActiveConnections()
                         endofsessionepoch = thisactor.schedule.getEndOfDayTime(globalvars.epochtime)
@@ -161,7 +164,7 @@ for i in range(1,86400*config.days):
             if len(thisactor.opensessions) > 0:
                 for sshsession in thisactor.opensessions:
                     if sshsession['endtime'] <= globalvars.epochtime:
-                        sshd.disconnect(thisactor.username,
+                        thisactor.sshd.disconnect(thisactor.username,
                                         thisactor.ip,
                                         sshsession['srcPort'])
                         thisactor.deleteSession(sshsession['srcPort'], sshsession['endtime'])
@@ -173,4 +176,3 @@ for i in range(1,86400*config.days):
     
 
 
-del sshd
