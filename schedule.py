@@ -72,8 +72,8 @@ class Schedule:
             raise Exception('Invalid config in time setting {}. Needs to be a range.'.format(str(timesection)))
 
         # Check to make sure that the configured start time and end time +/- maxdeviation don't overlap.
-        print("Start: " + str(self.day_starttime + self.maxdeviation))
-        print("End: " + str(self.day_endtime - self.maxdeviation))
+        #print("Start: " + str(self.day_starttime + self.maxdeviation))
+        #print("End: " + str(self.day_endtime - self.maxdeviation))
         if (self.day_starttime + self.maxdeviation) >= (self.day_endtime - self.maxdeviation):
             raise Exception('Start and end times cross for schedule with range {} and maxdeviation {}'.format(
                                                     str(self.scheduleconfig['time']),

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# This software is copyright Mark Krenz and has been released
+# under the terms of the GNU General Public License V3. See
+# The LICENSE file for details and obligations.
+
 # This is more of a mental exercise than a production program.
 # I wasn't sure how this would work so I had to try something
 # to explore the concepts.
@@ -33,12 +37,17 @@ daynames = [
     'Sunday'
 ]
 
-# Taken and augmented from Kay's apache_log_simulator.
+# Taken and augmented from Kay Avila's apache_log_simulator.
 # Good candidate for a unified module.
-def random_ipaddr(lowerbound, upperbound):                    
+# Probably as this software becomes more complex we'd want to have
+# an allocate/deallocate model rather than just picking at random.
+def random_ipaddr(lowerbound, upperbound, excluded=[]):
     # 2 ^ 32 = 4294967296, subtract one to get 4294967295                       
     addr = IPAddress(random.randint(lowerbound, upperbound))                             
     invalid_ips = IPSet()
+    for ip in excluded: # Add excluded IPs from optional list 'excluded'
+        invalid_ips.add(IPAddress(ip))
+
     for net in ( #IPv4 reserved blocks.
                 '0.0.0.0/8',
                 '10.0.0.0/8',
@@ -78,6 +87,9 @@ syslogger = SyslogOutput(config.logfile, config.hostname)
 # A list of all the actor objects in the simulation.
 actorqueue = []
 
+# To make sure we don't reuse one that is in use.
+ip_pool = []
+
 for actorkey in list(config.actors.keys()):
     actorconfig = config.actors[actorkey]
     usernames = actorconfig['usernames']
@@ -100,7 +112,8 @@ for actorkey in list(config.actors.keys()):
         ipnet = IPNetwork(actorconfig['address-block'])
         ipnetlow = int(ipnet.network) + 1 # Allowing router IP.
         ipnethigh = int(ipnet.broadcast) - 1
-        actorip = IPAddress(random_ipaddr(ipnetlow, ipnethigh))
+
+        actorip = IPAddress(random_ipaddr(ipnetlow, ipnethigh, ip_pool))
 
         # Just use the first schedule in the list for now.
         schedule = Schedule(scheduleconfig[0], config.startepoch, config.endepoch)

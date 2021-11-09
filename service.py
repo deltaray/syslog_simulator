@@ -19,7 +19,7 @@ class Service:
         #print("Got a pid of " + str(self.pid))
 
     def getPID(self):
-        Service.lastpid += 1
+        Service.lastpid += random.randint(1,5) # This will seem more real because usually other stuff is happening.
         while Service.lastpid in Service.pids:
             Service.lastpid += 1
         Service.pids.append(Service.lastpid)

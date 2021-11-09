@@ -1,7 +1,7 @@
 
 # Summary
 
-syslog_simulator is software to generate fake syslog data using a
+syslog\_simulator is software to generate fake syslog data using a
 configuration file that you configure. The primary use case for
 this software is for information security education. Too often
 security educators will leave realistic logs out of their
@@ -33,6 +33,10 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# Setup
+
+You will need to install the netaddr python module.
 
 # Configuration
 

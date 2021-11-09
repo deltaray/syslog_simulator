@@ -3,9 +3,9 @@ hostname = 'myrtle'
 logfile = 'syslog'
 
 # Set the range for the logs
-days = 5 
+days = 17
 # Start time of log.
-startepoch = 1499659200  # unix epoch time.
+startepoch = 1570420800  # unix epoch time.
 # For convenience, just calculate endepoch, it can also be a epochtime.
 endepoch = startepoch + 86400*days
 
